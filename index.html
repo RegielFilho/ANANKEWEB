@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ananke Web | Presença Digital de Elite por Assinatura</title>
+    <!-- Importação de Fonte e Ícones de Alta Qualidade -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --glass: rgba(255, 255, 255, 0.02);
+            --glass-hover: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: linear-gradient(135deg, #10b981, #059669);
+            --accent-solid: #10b981;
+            --text: #ffffff;
+            --text-muted: #94a3b8;
+            --transition: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+        /* Header Dinâmico */
+        header { 
+            position: fixed; 
+            width: 100%; 
+            padding: 20px 8%; 
+            backdrop-filter: blur(12px); 
+            background: rgba(11, 15, 25, 0.7); 
+            z-index: 1000; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--border);
+            transition: all 0.4s var(--transition);
+        }
+        header.scrolled { padding: 12px 8%; background: rgba(11, 15, 25, 0.95); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        /* Logo Customizada SVG (Engrenagem/Infinito Simétrico) */
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; gap: 12px; }
+        .logo-svg { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+        
+        .nav-links a { color: var(--text-muted); text-decoration: none; margin-right: 30px; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--text); }
+
+        .btn-cta { 
+            background: var(--accent); 
+            padding: 14px 28px; 
+            border-radius: 50px; 
+            color: white; 
+            text-decoration: none; 
+            font-weight: 700; 
+            display: inline-block;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.2);
+            transition: all 0.4s var(--transition); 
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4); }
+
+        /* Hero Section Premium */
+        .hero { 
+            padding: 180px 8% 100px; 
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .hero-content { text-align: left; }
+        h1 { font-size: clamp(2.5rem, 4.5vw, 3.8rem); font-weight: 800; margin-bottom: 25px; line-height: 1.15; letter-spacing: -1px; }
+        h1 span { background: var(--accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; }
+        
+        .hero-image { position: relative; width: 100%; display: flex; justify-content: center; }
+        .hero-image img { width: 100%; max-width: 550px; border-radius: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.6); border: 1px solid var(--border); transition: transform 0.5s var(--transition); }
+        .hero-image:hover img { transform: translateY(-10px) rotate(1px); }
+
+        /* Animação de Scroll */
+        section { padding: 100px 8%; max-width: 1400px; margin: 0 auto; opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+        section.visible { opacity: 1; transform: translateY(0); }
+        
+        .section-header { text-align: center; max-width: 600px; margin: 0 auto 60px; }
+        .section-header h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 15px; letter-spacing: -0.5px; }
+        .section-header p { color: var(--text-muted); font-size: 1.1rem; }
+
+        /* Serviços / Diferenciais */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { 
+            background: var(--glass); 
+            border: 1px solid var(--border); 
+            padding: 40px; 
+            border-radius: 24px; 
+            backdrop-filter: blur(10px); 
+            transition: all 0.4s var(--transition); 
+        }
+        .card:hover { background: var(--glass-hover); transform: translateY(-5px); border-color: rgba(16, 185, 129, 0.3); }
+        .card .icon { font-size: 2rem; color: #10b981; margin-bottom: 20px; display: inline-block; }
+        .card h3 { font-size: 1.4rem; margin-bottom: 15px; font-weight: 700; }
+        .card p { color: var(--text-muted); }
+
+        /* Portfólio Limpo (3 Colunas Perfeitamente Centralizadas e Sem Imagens Reais) */
+        .portfolio-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px; 
+            justify-content: center; 
+            align-items: stretch;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .portfolio-card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; transition: all 0.4s var(--transition); display: flex; flex-direction: column; }
+        .portfolio-card:hover { transform: translateY(-5px); border-color: rgba(16, 185, 129, 0.3); }
+        
+        .portfolio-abstract { 
+            width: 100%; 
+            height: 180px; 
+            background: rgba(0, 0, 0, 0.3); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-bottom: 1px solid var(--border);
+            color: rgba(16, 185, 129, 0.4);
+            font-size: 3rem;
+            transition: all 0.4s var(--transition);
+        }
+        .portfolio-card:hover .portfolio-abstract { color: var(--accent-solid); background: rgba(16, 185, 129, 0.02); }
+
+        .portfolio-info { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .portfolio-text { margin-bottom: 5px; }
+        .portfolio-info span { font-size: 0.8rem; font-weight: 700; color: #10b981; text-transform: uppercase; letter-spacing: 1px; }
+        .portfolio-info h4 { font-size: 1.2rem; margin: 8px 0 12px; font-weight: 700; }
+        .portfolio-info p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+
+        /* Pricing Grid Inteligente (3 Colunas) */
+        .price-container { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px; 
+            max-width: 1240px; 
+            margin: 0 auto; 
+            align-items: stretch;
+        }
+        .price-card { 
+            background: var(--glass);
+            border: 1px solid var(--border); 
+            padding: 50px 30px; 
+            border-radius: 32px; 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.4s var(--transition);
+        }
+        /* Destaque Psicológico para o Plano do Meio (Pro) */
+        .price-card.featured {
+            background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+            border: 2px solid var(--accent-solid);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.05);
+            transform: scale(1.02);
+        }
+        .price-card:hover { border-color: rgba(16, 185, 129, 0.3); }
+        .price-card.featured:hover { transform: scale(1.02) translateY(-3px); }
+        
+        .badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--accent); padding: 6px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+        .price-card h3 { font-size: 1.6rem; font-weight: 700; text-align: center; margin-bottom: 10px; }
+        .price { font-size: 3.2rem; font-weight: 800; color: white; margin: 15px 0; letter-spacing: -1px; text-align: center; }
+        .price span { font-size: 1.1rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0; }
+        .price-card .desc { color: var(--text-muted); text-align: center; font-size: 0.95rem; margin-bottom: 30px; min-height: 48px; }
+        
+        .price-card ul { list-style: none; text-align: left; margin-bottom: 40px; display: grid; gap: 14px; flex-grow: 1; }
+        .price-card ul li { display: flex; align-items: flex-start; gap: 12px; color: var(--text-muted); font-size: 0.95rem; line-height: 1.4; }
+        .price-card ul li i { color: #10b981; font-size: 1rem; margin-top: 3px; }
+        .price-card ul li.disabled { opacity: 0.35; }
+        .price-card ul li.disabled i { color: var(--text-muted); }
+
+        /* Form */
+        .contact-wrapper { max-width: 600px; margin: 0 auto; background: var(--glass); border: 1px solid var(--border); padding: 50px; border-radius: 32px; backdrop-filter: blur(10px); }
+        form { display: flex; flex-direction: column; gap: 20px; }
+        .input-group { position: relative; }
+        .input-group i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); transition: color 0.3s; }
+        input, textarea { width: 100%; padding: 18px 20px 18px 55px; border-radius: 12px; border: 1px solid var(--border); background: rgba(0, 0, 0, 0.2); color: white; font-size: 1rem; outline: none; transition: all 0.3s; }
+        textarea { resize: none; padding-top: 18px; }
+        input:focus, textarea:focus { border-color: var(--accent-solid); background: rgba(0, 0, 0, 0.4); box-shadow: 0 0 15px rgba(16, 185, 129, 0.1); }
+        input:focus + i { color: var(--accent-solid); }
+        
+        footer { border-top: 1px solid var(--border); text-align: center; padding: 40px; color: var(--text-muted); font-size: 0.9rem; }
+
+        /* Responsividade Total */
+        @media (max-width: 1024px) {
+            .price-container { grid-template-columns: 1fr; max-width: 450px; gap: 40px; }
+            .price-card.featured { transform: scale(1); }
+            .price-card.featured:hover { transform: translateY(-3px); }
+        }
+        @media (max-width: 968px) {
+            header .nav-links { display: none; }
+            .hero { grid-template-columns: 1fr; text-align: center; padding-top: 140px; gap: 40px; }
+            .hero-content { text-align: center; }
+            .hero-image img { max-width: 100%; }
+            .portfolio-grid { grid-template-columns: 1fr; max-width: 400px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="navbar">
+        <div class="logo">
+            <!-- Símbolo Exclusivo SVG: Elos Lógicos de Engrenagem e Conexão Infinita -->
+            <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#10b981" />
+                        <stop offset="100%" stop-color="#059669" />
+                    </linearGradient>
+                </defs>
+                <path d="M30 50 L70 50" stroke="url(#logo-grad)" stroke-width="8" stroke-linecap="round"/>
+                <circle cx="32" cy="50" r="18" stroke="url(#logo-grad)" stroke-width="6" stroke-dasharray="6 4" fill="none"/>
+                <circle cx="32" cy="50" r="6" fill="url(#logo-grad)"/>
+                <circle cx="68" cy="50" r="18" stroke="url(#logo-grad)" stroke-width="6" stroke-dasharray="6 4" fill="none"/>
+                <circle cx="68" cy="50" r="6" fill="url(#logo-grad)"/>
+            </svg>
+            Ananke Web
+        </div>
+        <nav class="nav-links">
+            <a href="#servicos">Benefícios</a>
+            <a href="#portfolio">Estruturas</a>
+            <a href="#preco">Planos</a>
+        </nav>
+        <a href="#contato" class="btn-cta">Ativar Meu Site</a>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero visible" style="opacity:1; transform:translateY(0);">
+            <div class="hero-content">
+                <h1>Sua empresa precisa de clientes, não de <span>dor de cabeça técnico.</span></h1>
+                <p>Nós construímos, hospedamos e atualizamos o site perfeito para o seu negócio por um valor mensal fixo que cabe no seu bolso. Sem custos de criação, sem contratos abusivos.</p>
+                <a href="#contato" class="btn-cta" style="padding: 18px 40px; font-size: 1.1rem;">Quero Crescer Meu Negócio</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=600&q=80" alt="Sucesso Digital Corporativo">
+            </div>
+        </section>
+
+        <!-- Serviços / Benefícios -->
+        <section id="servicos">
+            <div class="section-header">
+                <h2>Como funciona a assinatura?</h2>
+                <p>Você cuida das suas vendas, nós cuidamos do resto de forma totalmente invisível e eficiente.</p>
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <div class="icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h3>Design de Elite</h3>
+                    <p>Sites sob medida projetados sob a psicologia do consumidor para reter a atenção e converter cliques em dinheiro.</p>
+                </div>
+                <div class="card">
+                    <div class="icon"><i class="fa-solid fa-headset"></i></div>
+                    <h3>Alterações Livres</h3>
+                    <p>Quer trocar um produto, um banner ou um telefone? Mande um e-mail e nós alteramos em tempo recorde para você.</p>
+                </div>
+                <div class="card">
+                    <div class="icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3>Segurança Máxima</h3>
+                    <p>Hospedagem de alta performance com monitoramento contra quedas e certificado de segurança SSL blindado.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfólio Limpo (Grid Simétrico de 3 Colunas com Wireframes Abstratos) -->
+        <section id="portfolio">
+            <div class="section-header">
+                <h2>Estruturas Focadas em Conversão</h2>
+                <p>Projetamos arquiteturas lógicas pensadas exclusivamente para o objetivo de cada negócio.</p>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-card">
+                    <div class="portfolio-abstract">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <div class="portfolio-info">
+                        <div class="portfolio-text">
+                            <span>Institucional</span>
+                            <h4>Páginas de Serviço & Clínicas</h4>
+                            <p>Estrutura sólida focada em passar autoridade imediata, facilitando o agendamento de consultas e contatos diretos.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-abstract">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <div class="portfolio-info">
+                        <div class="portfolio-text">
+                            <span>Varejo Local</span>
+                            <h4>Vitrine Digital Corporativa</h4>
+                            <p>Exposição limpa e otimizada de catálogos e produtos, projetada para atrair o público certo da sua região geográfica.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-abstract">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    </div>
+                    <div class="portfolio-info">
+                        <div class="portfolio-text">
+                            <span>Vendas Rápidas</span>
+                            <h4>Landing Pages de Alta Conversão</h4>
+                            <p>Páginas de produto único com funil direto e integradas ao WhatsApp para campanhas de tráfego pago de alto impacto.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Preços Atualizada (3 Planos Estratégicos) -->
+        <section id="preco">
+            <div class="section-header">
+                <h2>Planos Previsíveis Para Seu Momento</h2>
+                <p>Escolha a engrenagem certa para o tamanho do seu negócio atual. Sem taxas ocultas.</p>
+            </div>
+            <div class="price-container">
+                
+                <!-- Plano 1: Essencial -->
+                <div class="price-card">
+                    <h3>Essencial</h3>
+                    <div class="price">R$ 99<span>/mês</span></div>
+                    <p class="desc">Perfeito para autônomos e pequenos negócios que precisam de uma página profissional institucional.</p>
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> Site institucional (1 Página Completa)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Hospedagem Premium Inclusa</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Certificado de Segurança SSL</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Suporte para até 1 alteração mensal</li>
+                        <li class="disabled"><i class="fa-solid fa-circle-xmark"></i> Múltiplas páginas internas</li>
+                        <li class="disabled"><i class="fa-solid fa-circle-xmark"></i> Otimização avançada de anúncios</li>
+                    </ul>
+                    <a href="#contato" class="btn-cta" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); box-shadow: none;">Selecionar Essencial</a>
+                </div>
+
+                <!-- Plano 2: Pro (Destaque Psicológico) -->
+                <div class="price-card featured">
+                    <div class="badge">Mais Assinado</div>
+                    <h3>Profissional</h3>
+                    <div class="price">R$ 149<span>/mês</span></div>
+                    <p class="desc">A estrutura web completa e ideal para empresas locais, catálogos e prestadores de serviços estruturados.</p>
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> Site Completo (Até 4 páginas internas)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Hospedagem Profissional de Alta Velocidade</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Certificado de Segurança SSL Seguro</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Suporte Imediato para Alterações Livres</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Otimização Estrutural de SEO para o Google</li>
+                        <li class="disabled"><i class="fa-solid fa-circle-xmark"></i> Criação de Landing Pages de campanhas</li>
+                    </ul>
+                    <a href="#contato" class="btn-cta">Selecionar Profissional</a>
+                </div>
+
+                <!-- Plano 3: Performance -->
+                <div class="price-card">
+                    <h3>Performance</h3>
+                    <div class="price">R$ 249<span>/mês</span></div>
+                    <p class="desc">Para negócios que rodam tráfego pago pesado e precisam de Landing Pages focadas em conversão agressiva.</p>
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> Site Corporativo + Até 3 Landing Pages</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Infraestrutura Dedicada de Performance</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Suporte Prioritário Técnico</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Integração de Pixels (Meta, Google Ads e GA4)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Otimização de Carregamento Ultra Rápido</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Copys focadas em conversão de vendas</li>
+                    </ul>
+                    <a href="#contato" class="btn-cta" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); box-shadow: none;">Selecionar Performance</a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Formulário Convertendo por E-mail -->
+        <section id="contato">
+            <div class="section-header">
+                <h2>Fale Conosco Por E-mail</h2>
+                <p>Preencha os dados e entraremos em contato diretamente na sua caixa de entrada em poucas horas.</p>
+            </div>
+            <div class="contact-wrapper">
+                <form action="https://formspree.io/f/xrewwqya" method="POST">
+                    <div class="input-group">
+                        <input type="text" name="nome" placeholder="Seu Nome Completo" required>
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" name="email" placeholder="Seu Melhor E-mail" required>
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" name="negocio" placeholder="Qual o segmento do seu negócio?" required>
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <div class="input-group">
+                        <textarea name="mensagem" placeholder="Diga brevemente o que você espera do seu novo site..." rows="4" required></textarea>
+                        <i class="fa-solid fa-comment-dots" style="top: 25px; transform: none;"></i>
+                    </div>
+                    <button type="submit" id="submit-btn" class="btn-cta">Verificar Disponibilidade de Vaga</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Ananke Web. Todos os direitos reservados. Design de Alta Performance por Assinatura.</p>
+    </footer>
+
+    <script>
+        // Intersection Observer para animações de entrada fluidas
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('section').forEach(sec => observer.observe(sec));
+
+        // Mudança do Header ao rolar a página (Efeito Sticky Inteligente)
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Validação Magnética do Botão com Feedback Psicológico
+        const form = document.querySelector('form');
+        const btn = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', (e) => {
+            btn.innerText = "Analisando seu segmento. Aguarde...";
+            btn.style.background = "#059669";
+            btn.style.pointerEvents = "none";
+        });
+    </script>
+</body>
+</html>
